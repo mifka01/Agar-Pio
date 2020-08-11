@@ -30,7 +30,7 @@ class Game():
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                self.quit()
+                self.quitt()
     def update(self):
         self.player.update()
         pg.display.update()

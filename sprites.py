@@ -1,6 +1,5 @@
 import pygame as pg
 import random
-from logic import get_distance
 from settings import *
 import math
 
