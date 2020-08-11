@@ -13,9 +13,12 @@ class Game():
         self.running = True
         self.playing = False
         self.tick_count = 0
+        self.food = []
 
     def new(self):
         self.player = Player(self, 500, 600)
+        for _ in range(0,100):
+            self.food.append(Food(self, random.choice(range(0,1080)),random.choice(range(0,1920))))
         self.playing = True
 
     def events(self):
@@ -30,6 +33,8 @@ class Game():
 
     def draw(self):
         self.screen.fill((255,255,255))
+        for food in self.food:
+            food.draw()
         self.player.draw()
         
     def run(self):
