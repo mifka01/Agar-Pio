@@ -16,7 +16,9 @@ class Food():
 
     def draw(self, x: int, y: int):
         pg.draw.circle(self.game.screen, self.color,
-                       (int(x), int(y)), int(self.radius))
+                       (int(x*self.game.camera.zoom+self.game.camera.x), int(y*self.game.camera.zoom+self.game.camera.y)), int(self.radius*self.game.camera.zoom))
+        
+        
 
     def set_radius(self, radius):
         self.radius = radius
@@ -62,21 +64,28 @@ class Player(Food):
 
     def eat(self, food):
         temp_pos = pg.math.Vector2(0, 0) - self.off_set
-        if temp_pos.distance_to(food.pos) < self.radius + food.radius:
-            if self.area > food.area:
+        if temp_pos.distance_to(food.pos) <= self.radius/2:
+            if self.radius > food.radius:
                 area_sum = self.area + food.area
                 self.radius = sqrt(area_sum / pi)
+                self.area = int(pi * self.radius ** 2)
+                self.radius += 0.5
                 self.area = int(pi * self.radius ** 2)
                 self.game.food.remove(food)
 
     def draw(self):
         pg.draw.circle(self.game.screen, self.color, (int(
-            self.pos.x), int(self.pos.y)), int(self.radius))
+            self.pos.x*self.game.camera.zoom+self.game.camera.x), int(self.pos.y*self.game.camera.zoom+self.game.camera.y)), int(self.radius/2*self.game.camera.zoom))
+      
+        
 
     def loss(self):
         if self.radius > BASE_PLAYER_RADIUS:
-            self.area -= self.speed
-            self.radius = sqrt(self.area / pi)
+            pass
+            #self.area -= self.speed
+            #self.radius = sqrt(self.area / pi)
+            #self.radius -= 0.25
+            #self.area = int(pi * self.radius ** 2)
 
     def split(self):
         mouse = pg.mouse.get_pos()
