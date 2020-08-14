@@ -1,6 +1,6 @@
 import pygame as pg
-import random
 from pygame.locals import QUIT, KEYDOWN, K_w, K_SPACE
+import random
 from settings import WIDTH, HEIGHT, TITLE, FPS 
 from math import sqrt, pi
 from food import Food
