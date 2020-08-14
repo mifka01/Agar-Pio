@@ -12,7 +12,7 @@ class Player(Food):
         self.area = int(pi * self.radius ** 2)
         self.color = (0, 0, 0)
         self.pos = pg.math.Vector2(x, y)
-        self.name = None
+        self.name = ""
         self.balls = [self]
         self.off_set = pg.math.Vector2(0, 0)
 
@@ -62,3 +62,7 @@ class Player(Food):
             new_food = Food(self.game, new_food_x, new_food_y)
             self.set_radius(self.radius - BASE_FOOD_RADIUS)
             self.game.food.append(new_food)
+
+    def reset(self):
+        self.set_radius(BASE_PLAYER_RADIUS)
+        self.balls = [self]
