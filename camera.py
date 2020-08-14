@@ -1,5 +1,6 @@
-from settings import WIDTH, HEIGHT
-from sprites import Player
+from settings import WIDTH, HEIGHT 
+
+
 class Camera:
     def __init__(self):
         self.x = 0

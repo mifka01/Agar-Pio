@@ -1,7 +1,12 @@
 import pygame as pg
-from settings import *
-from sprites import *
-from camera import * 
+import random
+from pygame.locals import QUIT, KEYDOWN, K_w, K_SPACE
+from settings import WIDTH, HEIGHT, TITLE, FPS 
+from math import sqrt, pi
+from food import Food
+from player import Player
+from camera import Camera
+
 
 class Game():
     def __init__(self):
@@ -15,7 +20,6 @@ class Game():
         self.playing = False
         self.food = []
         self.tick_count = 0
-        self.zoom = 0.5
         self.camera = Camera()
 
     def new(self):
@@ -29,12 +33,12 @@ class Game():
 
     def events(self):
         for event in pg.event.get():
-            if event.type == pg.QUIT:
+            if event.type == QUIT:
                 self.quit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_SPACE:
+            if event.type == KEYDOWN:
+                if event.key == K_SPACE:
                     self.player.split()
-                if event.key == pg.K_w:
+                if event.key == K_w:
                     self.player.feed()
 
     def generate_food(self, amount: int):
