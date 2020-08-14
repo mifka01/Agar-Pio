@@ -14,9 +14,7 @@ class Game():
         pg.display.set_caption(TITLE)
         pg.font.init()
         self.clock = pg.time.Clock()
-        self.mixer = pg.mixer.init()
         self.player = Player(self, WIDTH/2, HEIGHT/2)
-        self.font = pg.font.Font(pg.font.get_default_font(), 40)
         self.running = True
         self.playing = False
         self.food = []
