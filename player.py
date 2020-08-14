@@ -60,6 +60,5 @@ class Player(Food):
             new_food_x = self.pos.x - vec.x
             new_food_y = self.pos.y - vec.y
             new_food = Food(self.game, new_food_x, new_food_y)
-            new_food.set_radius(50)
             self.set_radius(self.radius - BASE_FOOD_RADIUS)
             self.game.food.append(new_food)
