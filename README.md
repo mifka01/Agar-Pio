@@ -5,6 +5,9 @@ Agar.io clone created with Python
 - Python 3
 - Pygame
 
+# Run Instructions
+Download ZIP, extract it's content and run *main.py* 
+
 
 ![alt text](https://github.com/mifka01/agar-py/blob/master/images/agar.png?raw=true)
 
