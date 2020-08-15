@@ -9,5 +9,5 @@ Agar.io clone created with Python
 Download ZIP, extract it's content and run *main.py* 
 
 
-![alt text](https://github.com/mifka01/agar-py/blob/master/images/agar.png?raw=true)
+![alt text](https://github.com/mifka01/Agar-Pio/blob/master/images/agar_start.png)
 
