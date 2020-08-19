@@ -12,7 +12,7 @@ class Player(Food):
         self.area = int(pi * self.radius ** 2)
         self.color = (0, 0, 0)
         self.pos = pg.math.Vector2(x, y)
-        self.name = ""
+        self.name = "Unnamed"
         self.balls = [self]
         self.off_set = pg.math.Vector2(0, 0)
 

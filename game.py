@@ -10,11 +10,10 @@ from network import Network
 
 
 class Game():
-    def __init__(self, id):
+    def __init__(self):
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         pg.font.init()
-        self.id = id
         self.clock = pg.time.Clock()
         self.player = Player(self, WIDTH/2, HEIGHT/2)
         self.running = True
@@ -29,7 +28,8 @@ class Game():
 
     def new(self):
         self.reset()
-        self.players = [self.player]
+        self.players = self.network.send({"action": "append", "data": {"radius": self.player.radius, "offset": self.player.off_set, "name": self.player.name}})
+        print(self.players)
 
     def reset(self):
         self.food = []
@@ -46,13 +46,25 @@ class Game():
                 if event.key == K_w:
                     self.player.feed()
 
-    def generate_food(self, amount: int):
-        for _ in range(0, amount):
-            temp = Food(self, random.choice(range(-WIDTH, WIDTH*2)),
-                        random.choice(range(-HEIGHT, HEIGHT*2)))
+    def generate_food(self):
+        self.food = []
+        food_positions = self.network.send({"action":"get"})
+
+        for position in food_positions:
+            temp = Food(self, position[0],position[1])
             self.food.append(temp)
 
     def update(self):
+        food_positions = []
+        for food in self.food:
+            food_positions.append((food.pos.x, food.pos.y))
+
+        food_positions = self.network.send({"action":"update", "data": food_positions})
+        for position, food in zip(food_positions, self.food):
+            food.pos = pg.math.Vector2(position)
+
+        self.players = self.network.send({"action": "append", "data": {"radius": self.player.radius, "offset": self.player.off_set, "name": self.player.name}})
+        print(self.players)
         pg.display.update()
 
     def draw(self):
@@ -86,25 +98,26 @@ class Game():
 
             # 18 000 == 5 min (5x60x60)
             if self.tick_count % 7200 == 0:
-                self.generate_food(1000)
+                self.generate_food()
 
             self.tick_count += 1
 
-            if self.tick_count % LENGHT_OF_GAME * 3600  == 0:
+            if self.tick_count % (LENGHT_OF_GAME * 3600)  == 0:
                 self.playing = False
                 self.winner_screen()
 
             self.update()
 
     def score_table(self):
-        table_rect = pg.Rect((WIDTH - 300, 0, 300, len(self.players * 30)))
+        table_rect = pg.Rect((WIDTH - 300, 0, 300, 320))
         pg.draw.rect(self.screen, (211, 211, 211), table_rect)
 
-        for player in self.players:
-            text = f"{player.name} {round(player.area / 1000)}"
+        for index, player in enumerate(self.players):
+            player_area = int(pi * player['radius'] ** 2)
+            text = f"{index+1}.  {player['name']} {round(player_area / 1000)}"
             text_surface = self.small_font.render(text, True, (0, 0, 0))
             text_rect = text_surface.get_rect(center=table_rect.center)
-            self.screen.blit(text_surface, text_rect)
+            self.screen.blit(text_surface, (text_rect.x, 10 + index*30))
 
     def winner_screen(self):
         areas = [player.area for player in self.players]
