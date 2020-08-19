@@ -16,7 +16,7 @@ class Food:
     def draw(self, x: int, y: int):
         pg.draw.circle(self.game.screen, self.color,
                        (int(x*self.game.camera.zoom+self.game.camera.x), int(y*self.game.camera.zoom+self.game.camera.y)), int(self.radius*self.game.camera.zoom))
-        
+
     def set_radius(self, radius):
         self.radius = radius
         self.area = int(pi * self.radius ** 2)

@@ -1,18 +1,20 @@
 import pygame as pg
 from pygame.locals import QUIT, KEYDOWN, K_w, K_SPACE, K_BACKSPACE, K_RETURN
 import random
-from settings import WIDTH, HEIGHT, TITLE, FPS, BACKGROUND
+from settings import WIDTH, HEIGHT, TITLE, FPS, BACKGROUND, LENGHT_OF_GAME
 from math import sqrt, pi
 from food import Food
 from player import Player
 from camera import Camera
+from network import Network
 
 
 class Game():
-    def __init__(self):
+    def __init__(self, id):
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         pg.font.init()
+        self.id = id
         self.clock = pg.time.Clock()
         self.player = Player(self, WIDTH/2, HEIGHT/2)
         self.running = True
@@ -23,6 +25,7 @@ class Game():
         self.small_font = pg.font.SysFont('Comic Sans MS', 30)
         self.medium_font = pg.font.SysFont('Comic Sans MS', 60)
         self.big_font = pg.font.SysFont('Comic Sans MS', 120)
+        self.network = Network()
 
     def new(self):
         self.reset()
@@ -87,7 +90,7 @@ class Game():
 
             self.tick_count += 1
 
-            if self.tick_count % 18000 == 0:
+            if self.tick_count % LENGHT_OF_GAME * 3600  == 0:
                 self.playing = False
                 self.winner_screen()
 

@@ -36,7 +36,7 @@ class Player(Food):
     def draw(self):
         pg.draw.circle(self.game.screen, self.color, (int(
             self.pos.x*self.game.camera.zoom+self.game.camera.x), int(self.pos.y*self.game.camera.zoom+self.game.camera.y)), int(self.radius/2*self.game.camera.zoom))
-      
+
     def loss(self):
         if self.radius > BASE_PLAYER_RADIUS:
             self.area -= self.speed
